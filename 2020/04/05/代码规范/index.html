@@ -20,28 +20,32 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="规范的代码，可以有效的提高代码的可读性和可维护性。我们在写代码的过程当中，应该有个这样的规范来约束自己，这在团队开发过程中显得尤为重要。此文列举的iOS代码规范，并不一定是一个完备的规范，后续会不断的进行补充和完善。 ####代码结构清晰的代码结构有利于代码的传承，增强可读性和可维护性。 123456789推荐：#pragma mark - Life cycle#pragma mark - P">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码规范">
+<meta property="og:url" content="http://yoursite.com/2020/04/05/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="规范的代码，可以有效的提高代码的可读性和可维护性。我们在写代码的过程当中，应该有个这样的规范来约束自己，这在团队开发过程中显得尤为重要。此文列举的iOS代码规范，并不一定是一个完备的规范，后续会不断的进行补充和完善。 ####代码结构清晰的代码结构有利于代码的传承，增强可读性和可维护性。 123456789推荐：#pragma mark - Life cycle#pragma mark - P">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-05T03:51:45.203Z">
+<meta property="article:modified_time" content="2020-04-05T04:05:26.320Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2020/04/05/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Hexo</title>
+  <title>代码规范 | Hexo</title>
   
 
 
@@ -139,9 +143,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -157,10 +162,9 @@
       <meta itemprop="name" content="Hexo">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/05/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" class="post-title-link" itemprop="url">代码规范</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          代码规范
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -184,7 +188,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>　　规范的代码，可以有效的提高代码的可读性和可维护性。我们在写代码的过程当中，应该有个这样的规范来约束自己，这在团队开发过程中显得尤为重要。此文列举的iOS代码规范，并不一定是一个完备的规范，后续会不断的进行补充和完善。</p>
+        <p>　　规范的代码，可以有效的提高代码的可读性和可维护性。我们在写代码的过程当中，应该有个这样的规范来约束自己，这在团队开发过程中显得尤为重要。此文列举的iOS代码规范，并不一定是一个完备的规范，后续会不断的进行补充和完善。</p>
 <p>####代码结构<br>清晰的代码结构有利于代码的传承，增强可读性和可维护性。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">推荐：</span><br><span class="line">#pragma mark - Life cycle</span><br><span class="line">#pragma mark - Public methods</span><br><span class="line">#pragma mark - Actions</span><br><span class="line">#pragma mark - Delegate</span><br><span class="line">#pragma mark - Notification</span><br><span class="line">#pragma mark - Internal methods</span><br><span class="line">#pragma mark - Setter</span><br><span class="line">#pragma mark - Getter</span><br></pre></td></tr></table></figure>
 
@@ -329,21 +333,23 @@
 <li>分块提交：不要一次性提交大量的代码，应该在开发过程中分模块逐步提交代码。</li>
 </ul>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+
+
+        
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -396,6 +402,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#间距"><span class="nav-number">1.</span> <span class="nav-text">间距</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件判断"><span class="nav-number">2.</span> <span class="nav-text">条件判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#判断"><span class="nav-number">3.</span> <span class="nav-text">&#x3D;&#x3D;判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Switch语句"><span class="nav-number">4.</span> <span class="nav-text">Switch语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三目运算符"><span class="nav-number">5.</span> <span class="nav-text">三目运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误处理"><span class="nav-number">6.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法"><span class="nav-number">7.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性"><span class="nav-number">8.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#私有属性"><span class="nav-number">9.</span> <span class="nav-text">私有属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性限定符"><span class="nav-number">10.</span> <span class="nav-text">属性限定符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命名"><span class="nav-number">11.</span> <span class="nav-text">命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注释"><span class="nav-number">12.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#init-和-dealloc"><span class="nav-number">13.</span> <span class="nav-text">init 和 dealloc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字面量"><span class="nav-number">14.</span> <span class="nav-text">字面量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#泛型"><span class="nav-number">15.</span> <span class="nav-text">泛型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CGRect-函数"><span class="nav-number">16.</span> <span class="nav-text">CGRect 函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常量"><span class="nav-number">17.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#枚举类型"><span class="nav-number">18.</span> <span class="nav-text">枚举类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#位掩码"><span class="nav-number">19.</span> <span class="nav-text">位掩码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图片命名"><span class="nav-number">20.</span> <span class="nav-text">图片命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#布尔"><span class="nav-number">21.</span> <span class="nav-text">布尔</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#return"><span class="nav-number">22.</span> <span class="nav-text">return</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单例"><span class="nav-number">23.</span> <span class="nav-text">单例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入"><span class="nav-number">24.</span> <span class="nav-text">导入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#push代码"><span class="nav-number">25.</span> <span class="nav-text">push代码</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
