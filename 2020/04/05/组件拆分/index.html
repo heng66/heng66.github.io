@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="整体是路由架构： 路由架构、模块灵活搭配、插件化管理、易于扩展、易于协作、模块间0耦合缺点：会比无路由架构方式多一些开发量，面向对象编程基础扎实才能驾驭 iOS路由架构一共三种模型 蘑菇街模式    CTMediator模式    protocol模式     最终采用的是CTMediator 经过长期的实践，四层架构基本上可以算得上是万能架构了，业务层 –&gt; 中间层 –&gt; 基础层 –">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组件拆分">
+<meta property="og:url" content="http://yoursite.com/2020/04/05/%E7%BB%84%E4%BB%B6%E6%8B%86%E5%88%86/index.html">
+<meta property="og:site_name" content="chenqg">
+<meta property="og:description" content="整体是路由架构： 路由架构、模块灵活搭配、插件化管理、易于扩展、易于协作、模块间0耦合缺点：会比无路由架构方式多一些开发量，面向对象编程基础扎实才能驾驭 iOS路由架构一共三种模型 蘑菇街模式    CTMediator模式    protocol模式     最终采用的是CTMediator 经过长期的实践，四层架构基本上可以算得上是万能架构了，业务层 –&gt; 中间层 –&gt; 基础层 –">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-05T04:22:26.191Z">
+<meta property="article:modified_time" content="2020-04-05T05:26:11.647Z">
+<meta property="article:author" content="chenqg">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/05/%E7%BB%84%E4%BB%B6%E6%8B%86%E5%88%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>组件拆分 | chenqg</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">chenqg</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/05/%E7%BB%84%E4%BB%B6%E6%8B%86%E5%88%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="chenqg">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chenqg">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          组件拆分
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-05 12:22:26 / Modified: 13:26:11" itemprop="dateCreated datePublished" datetime="2020-04-05T12:22:26+08:00">2020-04-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>整体是路由架构： 路由架构、模块灵活搭配、插件化管理、易于扩展、易于协作、模块间0耦合<br>缺点：会比无路由架构方式多一些开发量，面向对象编程基础扎实才能驾驭</p>
+<h4 id="iOS路由架构一共三种模型"><a href="#iOS路由架构一共三种模型" class="headerlink" title="iOS路由架构一共三种模型"></a>iOS路由架构一共三种模型</h4><ul>
+<li>蘑菇街模式   </li>
+<li>CTMediator模式   </li>
+<li>protocol模式   </li>
+</ul>
+<h4 id="最终采用的是CTMediator"><a href="#最终采用的是CTMediator" class="headerlink" title="最终采用的是CTMediator"></a>最终采用的是CTMediator</h4><ul>
+<li><p>经过长期的实践，四层架构基本上可以算得上是万能架构了，业务层 –&gt; 中间层 –&gt; 基础层 –&gt; 第三方私有化。这四层自上而下，同层之间不可以相互引用。</p>
+</li>
+<li><p>模块管理我们采用cocoapod管理，许多第三方来自github，对于github中的有些资源依赖会去谷歌下载，导致不翻墙就无法调试、无法打包，而且第三方如果被作者删除，会导致项目出现事故，因此，第三方私有化是重中之重，是基础必备，因此首先所有第三方及其依赖私有化是第一步。</p>
+</li>
+<li><p>基础层，它是私有化第三方上层，遵循依赖倒置原则，在项目中不直接使用第三方代码，而是通过基础层加一层封装，比如说我们用的网络AFNetWorking，如果有一天AFNetWorking废弃了也不维护了，我们不用到各个模块去全部修改一遍，只需要到基础层的网络模块进行修改，而对外接口是不变的，修改的是接口的具体实现部分，外部可以0修改，完全无感知。另外，基础层包含许多基础工具，后面会详细介绍。</p>
+</li>
+<li><p>中间层，是上服务于业务层，下使用基础层，这部分已经和项目的具体业务有关系了，这里最多的是基础UI组件的封装和业务公共功能部分的封装</p>
+</li>
+<li><p>业务层，就是首页、视频页、详情页、登录页等，项目具体实现<br>如果有天我们需要另外开发一款app，第三方私有和基础层都是可以完全复用照搬，因为他们和业务完全没关系</p>
+</li>
+<li><p>以上，架构骨架四层结构介绍完了。</p>
+</li>
+</ul>
+<h4 id="CTMediator路由架构"><a href="#CTMediator路由架构" class="headerlink" title="CTMediator路由架构"></a>CTMediator路由架构</h4><ul>
+<li>这种路由架构在网上有大量文章，其优点不言而喻，采用target-action方式，内部实现采用OC特效runtime及方法查找特性</li>
+<li>业务层各个业务模块之间完全0耦合，相互之间不可以相互引用，避免难解难分，他们之间的跳转采用路由模块层控制，直到运行时才能发现模块是否存在</li>
+</ul>
+<h4 id="项目的具体架构实现（四层的实现）"><a href="#项目的具体架构实现（四层的实现）" class="headerlink" title="项目的具体架构实现（四层的实现）"></a>项目的具体架构实现（四层的实现）</h4><ul>
+<li>T开头的都是第三方私有库,凡用到的开源sdk都私有化。如TAFNetWorking</li>
+<li>BT开头的都是基础层，比如BTAFNetWorking和TAFNetWorking是相对应的，TAFNetWorking是第三方的直接私有化，没有代码上的任何变动，方便后期升级。BTAFNetWorking则是对TAFNetWorking的封装。</li>
+</ul>
+<h4 id="下面所有用到的BT会有详细解释"><a href="#下面所有用到的BT会有详细解释" class="headerlink" title="下面所有用到的BT会有详细解释"></a>下面所有用到的BT会有详细解释</h4><ul>
+<li>BTAdvert：对腾讯以及头条广告的封装。</li>
+<li>BTColor： 项目中的颜色封装</li>
+<li>BTDevice：对布局的坐标和大小的便捷操作方法的封装，以及设备机型的判断和机型宽高的封装</li>
+<li>BTDu：对数字联盟SDk的封装。</li>
+<li>BTEntity： 对网络返回的数据进行模型解析，自动解析为Model类，外部所有的网络接口都解析为Entity实体类</li>
+<li>BTFont：对项目中的pingfangSC等字体的封装，简单易用的工具类</li>
+<li>BTGesture：各种视图添加手势需要写大量代码，这个基础类可以一句代码调用实现监听和回调，提高开发效率</li>
+<li>BTijkPlayer：是对bilibili视频播放器的封装，只有播放功能，与UI无关</li>
+<li>BTImage：图片类的封装，比如读取图片清除缓存、模块里封装的图片读取方法、图片缩放、webp图片的显示等</li>
+<li>BTKit：一些公用基础系统组件的基础UI组件的封装，比如UITextView没有占位文字，这里将占位文字封装到UITextView中等</li>
+<li>BTJVerification：对极光SDK的封装</li>
+<li>BTNetwork：网络库的封装，只封装网络请求接口，具体的url和域名等在中间层出来</li>
+<li>BTPageView：这个是UI组件，如首页的左右切换页面，就是使用的这个控件</li>
+<li>BTBugly ：Bugly统计分析及卡崩上报</li>
+<li>BTSafe：安全类，对于字典、字符串、数组等的存取做安全保护，避免崩溃，以及对方法找不到等崩溃做拦截处理，即使程序应该崩溃也会拦截跳过</li>
+<li>BTShare：分享类，对微信分享、qq分享等功能做封装，UI无关</li>
+<li>BTSingleton：单例类管理，项目中的单例类只需要继承自这个类，就无需手写单例创建的大量代码，并且实现了按需释放</li>
+<li>BTString：字符串工具类，比如MD5、base64加密、URL截取、正则方法封装、判断空等</li>
+<li>BTSuper：项目中的父类，弹窗、Cell、视图等，对于Cell公用的注册方法和获取标志的方法都封装到父类里，达到重用的目的</li>
+<li>BTToast：Toast的封装</li>
+<li>BTUserDefaults：本地化操作的方便方法，例如用户信息、系统信息等，直接使用这个类就可以方便的本地化</li>
+</ul>
+<h4 id="M开头的都是中间层，多是与业务直接相关的基础组件"><a href="#M开头的都是中间层，多是与业务直接相关的基础组件" class="headerlink" title="M开头的都是中间层，多是与业务直接相关的基础组件"></a>M开头的都是中间层，多是与业务直接相关的基础组件</h4><ul>
+<li>MAlertView：<br>详情页的评论弹窗，在首页和视频页都会使用，所以独立封装出来可以直接复用，即便以后有新模块需要评论功能，可以直接拿来使用。<br>分享功能的弹窗，在许多模块里都有分享需求，分享弹窗UI封装之后，在需要使用的地方可以直接引入即可</li>
+<li>MCommenNet：<br>一些公用的网络请求，比如收藏、评论、分享信息获取，他们这些接口与模块无关，在很多模块里都可以复用</li>
+<li>MData：<br>本地化的具体类，比如用户信息类，继承自上面提到的ETUserDefaults，这里是与业务有关的，还有前置接口的配置信息类</li>
+<li>MDevice：<br>appName，系统请求的serverDeviceID、以及deviceUDID等，和具体业务相关的设备信息都在这个类里</li>
+<li>MExceptionView：<br>一些异常处理的页面封装，比如网络飞了提示，加载中等</li>
+<li>MHomeCells：<br>首页的单元UI样式，App中的样式在多个模块里都是一样的，因此独立出UI单元供多个业务模块共用</li>
+<li>MijkPlayer：<br>播放器UI界面的具体封装，直接使用下层的ETijkPlayer播放器功能类，封装为一个和具体业务相关的播放器</li>
+<li>MLogin：<br>微信登录相关逻辑和网络请求，后期如果有其他登录，也会放到这里</li>
+<li>MNavBar：<br>项目中的导航条，所有导航条的样式都封装到这里</li>
+<li>MNet：<br>网络请求参数的加密逻辑、URI、前置接口的请求等，都是和具体业务逻辑相关的</li>
+<li>MRefresh：<br>刷新控件，网络加载样式都在这里封装</li>
+<li>MScrollBar：<br>项目栏目的滚动条，项目中有俩滚动条，不排除以后会有其他的甚至样式的变动，这个模块就是专门为滚动条准备的</li>
+<li>MSuper：<br>和具体业务相关的父类，比如控制器、视图、导航等，如果有埋点等逻辑可以直接父类处理，将会直接写到这里，与业务直接相关</li>
+<li>MToolBar：<br>工具条，首页详情和视频详情底部的工具条封装，具体业务相关</li>
+</ul>
+<h4 id="业务模块"><a href="#业务模块" class="headerlink" title="业务模块"></a>业务模块</h4><ul>
+<li>KDChannel：项目滚动条的筛选模块</li>
+<li>KDCommentList：评论列表模块</li>
+<li>KDInspector：工具待完善</li>
+<li>KDLoginVC：登录模块，手机登录、微信登录等逻辑</li>
+<li>KDMineVC：我的模块</li>
+<li>KDHomeViewController：首页模块</li>
+<li>KDRankingVC：排行榜模块</li>
+<li>KDSearchViewController：搜索模块</li>
+<li>KDTabBarController：底部tab模块，综合管理首页、视频页、排行榜、我的</li>
+<li>KDVideoDetailVC：视频详情模块</li>
+<li>KDVideoVC：视频模块</li>
+<li>KDWebDetailVC：网络详情模块，凡是H5的页面，都用这个模块</li>
+<li>KDRoot：根模块，直接控制KDTabBarController，并且前置接口等所有项目相关的全局业务都放这里</li>
+</ul>
+<h4 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h4><ul>
+<li>KDApp：项目空壳模块，配置应用图标，应用名和id等，直接使用KDRoot组装成完整app功能，此模块也是最终app打包用到的项目</li>
+<li>以上所有的BT、M、KD模块，都是可以独立运行的项目，可以独立调试和测试！这正是组件化的精华所在</li>
+<li>以上业务间相互跳转的路由是模块控制，即Module模块</li>
+<li>这里的Module和某一个KD有直接关系，当跳转的时候就可以让另一个模块直接调用Module，但是另一个模块对Module里的具体KD是不知道的，因此实现了完全0耦合，具体可以参考CTMediator的实现。 </li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/05/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" rel="prev" title="代码规范">
+      <i class="fa fa-chevron-left"></i> 代码规范
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#iOS路由架构一共三种模型"><span class="nav-number">1.</span> <span class="nav-text">iOS路由架构一共三种模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最终采用的是CTMediator"><span class="nav-number">2.</span> <span class="nav-text">最终采用的是CTMediator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CTMediator路由架构"><span class="nav-number">3.</span> <span class="nav-text">CTMediator路由架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#项目的具体架构实现（四层的实现）"><span class="nav-number">4.</span> <span class="nav-text">项目的具体架构实现（四层的实现）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下面所有用到的BT会有详细解释"><span class="nav-number">5.</span> <span class="nav-text">下面所有用到的BT会有详细解释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#M开头的都是中间层，多是与业务直接相关的基础组件"><span class="nav-number">6.</span> <span class="nav-text">M开头的都是中间层，多是与业务直接相关的基础组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#业务模块"><span class="nav-number">7.</span> <span class="nav-text">业务模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#综述"><span class="nav-number">8.</span> <span class="nav-text">综述</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chenqg</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenqg</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
